@@ -1,3 +1,4 @@
+# build tauri bundles
 name: Release
 on:
   push:
