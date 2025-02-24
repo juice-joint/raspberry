@@ -21,9 +21,13 @@ use crate::{routes::healthcheck::healthcheck, state::AppState};
 use rust_embed::RustEmbed;
 use axum_embed::ServeEmbed;
 
-#[derive(RustEmbed, Clone)]
-#[folder = "./static/phippy/dist"]
-struct Phippy;
+// #[derive(RustEmbed, Clone)]
+// #[folder = "./static/goldie/dist"]
+// struct Goldie;
+
+// #[derive(RustEmbed, Clone)]
+// #[folder = "./static/phippy/dist"]
+// struct Phippy;
 
 pub async fn create_router_with_state() -> Router {
     let yt_downloader = Arc::new(YtDownloader {});
@@ -47,7 +51,8 @@ pub async fn create_router_with_state() -> Router {
     );
 
     Router::new()
-        .nest_service("/phippy", get_service(ServeEmbed::<Phippy>::new()))
+        // .nest_service("/goldie", get_service(ServeEmbed::<Goldie>::new()))
+        // .nest_service("/phippy", get_service(ServeEmbed::<Phippy>::new()))
         .route("/api/healthcheck", get(healthcheck))
         .route("/server_ip", get(server_ip))
         .route("/queue_song", post(queue_song))
