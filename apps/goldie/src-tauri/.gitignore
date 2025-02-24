@@ -7,3 +7,5 @@
 /gen/schemas
 
 assets/
+embedded/*
+!embedded/.gitkeep

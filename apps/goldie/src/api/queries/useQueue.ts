@@ -16,6 +16,8 @@ async function getQueue() {
 export function useQueue() {
   return useQuery({
     queryFn: getQueue,
+    retry: true,
+    refetchInterval: 1000,
     queryKey: QUERY_KEYS.queue,
   });
 }

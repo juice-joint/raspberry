@@ -61,14 +61,14 @@ jobs:
         run: |
           rustup target add x86_64-apple-darwin
           mkdir -p goldie/src-tauri/target/release/bundle
-          cd goldie && bun run tauri build --target universal-apple-darwin
+          cd goldie && bun run tauri:build --target universal-apple-darwin
           # copy universal build to release dir
           mkdir -p src-tauri/target/release/bundle/dmg
           cp src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg src-tauri/target/release/bundle/dmg/
 
       - name: Build
         if: matrix.platform != 'macos-latest'
-        run: cd goldie && bun run tauri build
+        run: cd goldie && bun run tauri:build
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

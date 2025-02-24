@@ -75,7 +75,7 @@ function VideoPlayer() {
       // initialize dash.js player
       const player = dashjs.MediaPlayer().create();
       playerRef.current = player;
-      // TODO: the first segment is the lowest key.
+
       player.initialize(
         vidRef.current,
         `${API_URL}/dash/${currentSong.name}/${currentSong.name}.mpd`,

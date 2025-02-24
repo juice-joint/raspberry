@@ -7,7 +7,7 @@ import { QUERY_KEYS } from "../queryKeys";
 import { SSE_URL } from "./eventSource";
 import { EventType, type SSEEvent } from "./types";
 
-const sseConnections = new Map<string, EventSource>();
+let eventSource: EventSource | null = null;
 
 export const useEventSource = () => {
   const queryClient = useQueryClient();
@@ -19,12 +19,13 @@ export const useEventSource = () => {
     queryKey: ["sse", SSE_URL],
     queryFn: () => {
       return new Promise((resolve) => {
-        if (!sseConnections.has(SSE_URL)) {
-          const eventSource = new EventSource(new URL(SSE_URL));
-          sseConnections.set(SSE_URL, eventSource);
+        if (!eventSource) {
+          eventSource = new EventSource(new URL(SSE_URL));
           getQueue.refetch();
 
           eventSource.onmessage = (event) => {
+            console.log(event);
+
             try {
               const data = JSON.parse(event.data) as SSEEvent;
               switch (data.type) {
@@ -64,35 +65,27 @@ export const useEventSource = () => {
           };
 
           eventSource.onerror = () => {
-            sseConnections.delete(SSE_URL);
-            eventSource.close();
+            setTimeout(() => {
+              queryClient.invalidateQueries({ queryKey: ["sse", SSE_URL] });
+            }, 1000);
+            eventSource?.close();
           };
 
           // resolve once connection is open
           eventSource.onopen = () => resolve(null);
         } else {
-          // if connection exists, resolve immediately
           resolve(null);
         }
       });
     },
+    retry: true,
     enabled: true,
   });
 
-  // cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (
-        queryClient
-          .getQueryCache()
-          .find({ queryKey: ["sse", SSE_URL] })
-          ?.getObserversCount() === 1
-      ) {
-        sseConnections.get(SSE_URL)?.close();
-        sseConnections.delete(SSE_URL);
-      }
-    };
-  }, [queryClient]);
+  if (eventSource?.readyState === EventSource.CLOSED) {
+    eventSource = null;
+    queryClient.invalidateQueries({ queryKey: ["sse", SSE_URL] });
+  }
 
   return {
     ...query,

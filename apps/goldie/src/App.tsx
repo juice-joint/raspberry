@@ -1,5 +1,3 @@
-import { invoke } from "@tauri-apps/api/core";
-import React from "react";
 import { useCurrentSong } from "./api/queries/useCurrentSong";
 import { useEventSource } from "./api/sse/useEventSource";
 import { ErrorScreen } from "./components/error/component";
@@ -11,13 +9,7 @@ import { VideoPlayer } from "./components/video-player";
 function App() {
   const currentSong = useCurrentSong();
   const { error } = useEventSource();
-
-  React.useEffect(() => {
-    // example invocation
-    invoke<string>("greet", { name: "john" })
-      .then((response: string) => console.log(response))
-      .catch((e: Error) => console.error(e));
-  }, []);
+  console.log(currentSong, error);
 
   if (error) {
     return <ErrorScreen />;
