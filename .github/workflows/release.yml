@@ -57,7 +57,10 @@ jobs:
         run: |
           rustup target add x86_64-apple-darwin
           mkdir -p tauri/target/release/bundle
-          bun run tauri build --target universal-apple-darwin -- --out-dir tauri/target/release/bundle
+          bun run tauri build --target universal-apple-darwin
+          # copy universal build to release dir
+          mkdir -p tauri/target/release/bundle/dmg
+          cp tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg tauri/target/release/bundle/dmg/
 
       - name: Build
         if: matrix.platform != 'macos-latest'
