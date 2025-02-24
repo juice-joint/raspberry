@@ -8,7 +8,7 @@ use tower_http::{
 };
 use tracing::{debug, info, error, Level};
 use tracing_subscriber::fmt::format::FmtSpan;
-use utils::binary::DependencyError;
+use utils::binary::{setup_binary, update_ytdlp, Binary, DependencyError};
 
 mod actors;
 mod globals;
@@ -54,10 +54,10 @@ async fn setup_axum_server() -> Result<(), Box<dyn std::error::Error>> {
         DependencyError::Io(e)
     })?;
 
-    // info!("Setting up required binaries");
-    // setup_binary(Binary::Ffmpeg, &config_dir)?;
-    // setup_binary(Binary::Ytdlp, &config_dir)?;
-    // update_ytdlp(&config_dir)?;
+    info!("Setting up required binaries");
+    setup_binary(Binary::Ffmpeg, &config_dir)?;
+    setup_binary(Binary::Ytdlp, &config_dir)?;
+    update_ytdlp(&config_dir)?;
 
     // Setup CORS
     debug!("Configuring CORS");
