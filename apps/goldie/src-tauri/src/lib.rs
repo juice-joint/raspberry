@@ -40,21 +40,21 @@ async fn setup_axum_server() -> Result<(), Box<dyn std::error::Error>> {
     info!("Starting ferris server");
     debug!("Initializing configuration and directories");
 
-    // // Setup config directory and binaries
-    // let config_dir = dirs::config_dir()
-    //     .ok_or_else(|| {
-    //         error!("Failed to determine config directory");
-    //         DependencyError::NoConfigDir
-    //     })?
-    //     .join("pi-tchperfect");
+    // Setup config directory and binaries
+    let config_dir = dirs::config_dir()
+        .ok_or_else(|| {
+            error!("Failed to determine config directory");
+            DependencyError::NoConfigDir
+        })?
+        .join("raspberry"); //TODO change this to a const
 
-    // globals::init_config_dir(config_dir.clone());
+    globals::init_config_dir(config_dir.clone());
 
-    // debug!("Creating config directory at: {}", config_dir.display());
-    // fs::create_dir_all(&config_dir).map_err(|e| {
-    //     error!("Failed to create config directory: {}", e);
-    //     DependencyError::Io(e)
-    // })?;
+    debug!("Creating config directory at: {}", config_dir.display());
+    fs::create_dir_all(&config_dir).map_err(|e| {
+        error!("Failed to create config directory: {}", e);
+        DependencyError::Io(e)
+    })?;
 
     // info!("Setting up required binaries");
     // setup_binary(Binary::Ffmpeg, &config_dir)?;
