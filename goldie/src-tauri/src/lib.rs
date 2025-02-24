@@ -1,8 +1,5 @@
-use std::net::SocketAddr;
-use axum::{
-    routing::Router,
-    serve::serve,
-};
+use std::fs;
+use axum::serve::serve;
 use router::create_router_with_state;
 use tokio::net::TcpListener;
 use tower_http::{
@@ -11,6 +8,7 @@ use tower_http::{
 };
 use tracing::{debug, info, error, Level};
 use tracing_subscriber::fmt::format::FmtSpan;
+use utils::binary::DependencyError;
 
 mod actors;
 mod globals;
