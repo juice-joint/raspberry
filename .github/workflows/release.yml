@@ -56,11 +56,7 @@ jobs:
         if: matrix.platform == 'macos-latest'
         run: |
           rustup target add x86_64-apple-darwin
-          bun run tauri build --target universal-apple-darwin
-          echo "Checking all possible bundle locations:"
-          find tauri/target -name "bundle" -type d
-          find tauri/target -name "*.app" -type d
-          find tauri/target -name "*.dmg" -type f
+          bun run tauri build --target universal-apple-darwin --out-dir tauri/target/release/bundle
 
       - name: Build
         if: matrix.platform != 'macos-latest'
@@ -79,6 +75,7 @@ jobs:
         with:
           name: ${{ matrix.platform }}
           path: |
-            tauri/target/**/bundle/**/*
-            tauri/target/**/*.app
-            tauri/target/**/*.dmg
+            tauri/target/release/bundle/deb/*.deb
+            tauri/target/release/bundle/appimage/*.AppImage
+            tauri/target/release/bundle/dmg/*.dmg
+            tauri/target/release/bundle/nsis/*.exe
