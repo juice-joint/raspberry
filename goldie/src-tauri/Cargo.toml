@@ -1,5 +1,5 @@
 [package]
-name = "goldie"
+name = "pitchperfect"
 version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]
@@ -11,7 +11,7 @@ edition = "2021"
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
-name = "goldie_lib"
+name = "pitchperfect_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
@@ -20,6 +20,31 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = [] }
 tauri-plugin-opener = "2"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-
+async-channel = "2.3.1"
+axum = { version = "0.8.1", features = ["macros"] }
+axum-embed = "0.1.0"
+axum-extra = { version = "0.10.0", features = ["typed-header"] }
+config = "0.15.8"
+dirs = "6.0.0"
+dotenv = "0.15.0"
+futures-util = "0.3.31"
+home = "0.5.11"
+local-ip-address = "0.6.3"
+once_cell = "1.20.3"
+quick-xml = { version = "0.37.2", features = ["serialize"] }
+rand = "0.8.5"
+regex = "1.11.1"
+rust-embed = "8.5.0"
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.134"
+strum = { version = "0.26.3", features = ["derive", "strum_macros"] }
+thiserror = { version = "2.0.11", features = ["std"] }
+tokio = { version = "1.42.0", features = ["fs", "io-std", "io-util", "process", "rt-multi-thread"] }
+tokio-stream = { version = "0.1.17", features = ["full"] }
+tokio-util = { version = "0.7.13", features = ["io"] }
+tower = "0.5.2"
+tower-http = { version = "0.6.2", features = ["cors", "fs", "trace"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+unidecode = "0.3.0"
+uuid = { version = "1.11.0", features = ["fast-rng", "v4"] }
