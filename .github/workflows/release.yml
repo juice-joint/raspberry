@@ -56,7 +56,8 @@ jobs:
         if: matrix.platform == 'macos-latest'
         run: |
           rustup target add x86_64-apple-darwin
-          bun run tauri build --target universal-apple-darwin --out-dir tauri/target/release/bundle
+          mkdir -p tauri/target/release/bundle
+          bun run tauri build --target universal-apple-darwin -- --out-dir tauri/target/release/bundle
 
       - name: Build
         if: matrix.platform != 'macos-latest'
