@@ -28,6 +28,10 @@ jobs:
           targets: "aarch64-apple-darwin,x86_64-apple-darwin"
 
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "tauri -> target"
+          cache-on-failure: true
+          shared-key: "${{ matrix.platform }}"
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -57,6 +61,14 @@ jobs:
       - name: Build
         if: matrix.platform != 'macos-latest'
         run: bun run tauri build
+
+      - name: Debug Build Output
+        run: |
+          echo "Current directory: $PWD"
+          echo "Listing tauri/target/release:"
+          ls -R tauri/target/release/
+          echo "Listing bundle directory (if exists):"
+          ls -R tauri/target/release/bundle/ || echo "Bundle directory not found"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
