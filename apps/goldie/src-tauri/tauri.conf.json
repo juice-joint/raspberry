@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "test",
+  "productName": "raspberry",
   "version": "0.1.0",
-  "identifier": "com.test.app",
+  "identifier": "com.raspberry.app",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "test",
+        "title": "Raspberry",
         "width": 800,
         "height": 600
       }
