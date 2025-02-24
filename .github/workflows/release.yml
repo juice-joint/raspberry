@@ -57,7 +57,11 @@ jobs:
         run: |
           rustup target add x86_64-apple-darwin
           bun run tauri build --target universal-apple-darwin
-      
+          echo "Checking all possible bundle locations:"
+          find tauri/target -name "bundle" -type d
+          find tauri/target -name "*.app" -type d
+          find tauri/target -name "*.dmg" -type f
+
       - name: Build
         if: matrix.platform != 'macos-latest'
         run: bun run tauri build
@@ -74,4 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform }}
-          path: tauri/target/release/bundle/**/*
+          path: |
+            tauri/target/**/bundle/**/*
+            tauri/target/**/*.app
+            tauri/target/**/*.dmg
