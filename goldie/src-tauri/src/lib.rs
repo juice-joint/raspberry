@@ -26,7 +26,7 @@ async fn setup_axum_server() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize logging with timestamps and target info
     tracing_subscriber::fmt()
         .with_max_level(Level::TRACE)
-        .with_env_filter("test_lib")
+        .with_env_filter("raspberry_lib") //TODO change to some const
         .with_target(true)
         .with_thread_ids(true)
         .with_thread_names(true)
