@@ -22,13 +22,13 @@ A blazingly fast, on-device karaoke app that just works. Built with Rust + React
 ### Quick Start
 
 # Install dependencies
-pnpm install
+bun install
 
 # Run in dev mode
-pnpm tauri dev
+bun run tauri dev
 
 # Build for production
-pnpm tauri build
+bun run tauri build
 
 ## Tech Stack
 
