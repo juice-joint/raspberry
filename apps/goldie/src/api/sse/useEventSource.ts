@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
 import { formatSong } from "../../utils/format";
 import { Song } from "../api-types";
 import { useQueue } from "../queries/useQueue";
