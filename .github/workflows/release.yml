@@ -61,7 +61,7 @@ jobs:
         run: |
           rustup target add x86_64-apple-darwin
           mkdir -p apps/goldie/src-tauri/target/release/bundle
-          bun run build:tauri -- --target universal-apple-darwin
+          bun run build:tauri -- -- --target universal-apple-darwin
           # copy universal build to release dir
           mkdir -p apps/goldie/src-tauri/target/release/bundle/dmg
           cp apps/goldie/src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg apps/goldie/src-tauri/target/release/bundle/dmg/
