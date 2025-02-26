@@ -8,6 +8,7 @@ async function getQueue() {
   const { data } = await axiosClient.get<Array<Song>>("/song_list", {
     headers: { "Content-Type": "application/json", Accept: "*" },
   });
+  console.log("getq");
 
   const formattedQueue = data.map(formatSong);
   return formattedQueue;
@@ -17,7 +18,6 @@ export function useQueue() {
   return useQuery({
     queryFn: getQueue,
     retry: true,
-    refetchInterval: 1000,
     queryKey: QUERY_KEYS.queue,
   });
 }

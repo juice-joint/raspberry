@@ -12,19 +12,20 @@ export const useEventSource = () => {
   const queryClient = useQueryClient();
   const getQueue = useQueue();
 
-  const query = useQuery({
+  // set up query defaults
+  queryClient.setQueryDefaults(["sse", SSE_URL], {
     gcTime: 0,
     staleTime: Infinity,
-    queryKey: ["sse", SSE_URL],
+    retry: 10,
     queryFn: () => {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         if (!eventSource) {
           eventSource = new EventSource(new URL(SSE_URL));
+
           getQueue.refetch();
 
           eventSource.onmessage = (event) => {
             console.log(event);
-
             try {
               const data = JSON.parse(event.data) as SSEEvent;
               switch (data.type) {
@@ -64,20 +65,40 @@ export const useEventSource = () => {
           };
 
           eventSource.onerror = () => {
+            console.error("error");
             setTimeout(() => {
               queryClient.invalidateQueries({ queryKey: ["sse", SSE_URL] });
             }, 1000);
             eventSource?.close();
+            eventSource = null;
+            console.log("rejecting");
+            reject();
           };
 
-          // resolve once connection is open
-          eventSource.onopen = () => resolve(null);
+          eventSource.onopen = () => {
+            getQueue.refetch();
+            console.log("its open");
+            queryClient.invalidateQueries({ queryKey: ["sse", SSE_URL] });
+            resolve(null);
+          };
         } else {
           resolve(null);
         }
+
+        // add cleanup function
+        return () => {
+          console.log("cleaning up sse connection");
+          if (eventSource) {
+            eventSource.close();
+            eventSource = null;
+          }
+        };
       });
     },
-    retry: true,
+  });
+
+  const query = useQuery({
+    queryKey: ["sse", SSE_URL],
     enabled: true,
   });
 

@@ -10,3 +10,44 @@
   width: 100vw;
   height: 100vh;
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-spin-pulse {
+  animation: spin 3s linear infinite, pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* view transitions */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+::view-transition-old(loading-screen) {
+  animation: 0.3s fade-out ease-in-out forwards;
+}
+
+::view-transition-new(main-app) {
+  animation: 0.3s fade-in ease-in-out forwards;
+}
